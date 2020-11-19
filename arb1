@@ -1,0 +1,23 @@
+digraph {
+	Ramones [label="Ramones
+Hey Ho > pet > poison"]
+	"2 Minutos" [label="2 Minutos
+valentin"]
+	Ramones -> "2 Minutos"
+	"None2 Minutosl" [label=None]
+	"2 Minutos" -> "None2 Minutosl"
+	"None2 Minutosr" [label=None]
+	"2 Minutos" -> "None2 Minutosr"
+	Superuva [label="Superuva
+pet > remera > salamin"]
+	Ramones -> Superuva
+	NoneSuperuval [label=None]
+	Superuva -> NoneSuperuval
+	V8 [label=V8
+]
+	Superuva -> V8
+	NoneV8l [label=None]
+	V8 -> NoneV8l
+	NoneV8r [label=None]
+	V8 -> NoneV8r
+}

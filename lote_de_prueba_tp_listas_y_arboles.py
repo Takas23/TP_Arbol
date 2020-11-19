@@ -10,7 +10,7 @@ Original file is located at
 ################################################################################
 ############################OPERACION treePlot##################################
 ################################################################################
-
+from Arbol import *
 from graphviz import Digraph
 
 class NodoArbolDeCanciones(NodoArbolDeCanciones):
@@ -93,7 +93,7 @@ for lineaArchivo in archivoCanciones:
     cancionesInterpretes[interprete] = cancionesInterpretes[interprete].union(set(lineaArchivo[:-1]))
   canciones = Lista()
   for cancion in lineaArchivo[:-1]:
-    canciones.appendOrd(cancion)
+    canciones.append(cancion)
   arbolDeCancionesTest.insertarCanciones(canciones, interprete)
 archivoCanciones.close()
 
@@ -142,7 +142,7 @@ print("\nBusqueda de interpretes que no existen en el arbol:")
 interpretesNoEstan = ["Carlos Gardel","Fito Paez","Lito Nebia"]
 for interprete in interpretesNoEstan:
   listaInterpretes = Lista()
-  listaInterpretes.appendOrd(interprete)
+  listaInterpretes.append(interprete)
   print("Canciones de",interprete,"en el arbol:",arbolDeCancionesTest.buscarCanciones(listaInterpretes))
 
 print("\nBusqueda de interpretes que están en el arbol pero no comparten canciones:")
@@ -151,9 +151,9 @@ listaInterpretes = Lista()
 print("\nBuscados de a uno:")
 for interprete in interpretesConDistintas:
   listaActual = Lista()
-  listaActual.appendOrd(interprete)
+  listaActual.append(interprete)
   print("El interprete",interprete,"tiene las canciones:",arbolDeCancionesTest.buscarCanciones(listaActual))
-  listaInterpretes.appendOrd(interprete)
+  listaInterpretes.append(interprete)
 print("\nLas canciones compartidas por",listaInterpretes,"son:",arbolDeCancionesTest.buscarCanciones(listaInterpretes))
 
 print("\nBusqueda con interpretes que comparten canciones:")
@@ -167,7 +167,7 @@ listaPares = [["Sumo","Lou Reed"],
 for par in listaPares:
   listaInterpretes = Lista()
   for interprete in par:
-    listaInterpretes.appendOrd(interprete)
+    listaInterpretes.append(interprete)
   print("Las canciones compartidas por",listaInterpretes,"son:",arbolDeCancionesTest.buscarCanciones(listaInterpretes))
 
 ################################################################################
@@ -238,7 +238,7 @@ print("\nEliminamos todas las canciones de 'Sumo' una por una con la operacion e
 print("\nCanciones de cada uno de los interpretes antes de borrar:")
 for interprete in interpretes:
   listaInt = Lista()
-  listaInt.appendOrd(interprete)
+  listaInt.append(interprete)
   cancionesDeInterprete = list(cancionesInterpretes[interprete])
   cancionesDeInterpreteArbol = arbolDeCancionesTest.buscarCanciones(listaInt)
   print("El interprete",interprete,"tiene",len(cancionesDeInterprete),"canciones distintas ingresadas segun datos de entrada.")
@@ -250,7 +250,7 @@ for cancion in cancionesInterpretes["Sumo"]:
 print("\nCanciones de cada uno de los interpretes despues de borrar:")
 for interprete in interpretes:
   listaInt = Lista()
-  listaInt.appendOrd(interprete)
+  listaInt.append(interprete)
   cancionesDeInterprete = list(cancionesInterpretes[interprete])
   cancionesDeInterpreteArbol = arbolDeCancionesTest.buscarCanciones(listaInt)
   print("El interprete",interprete,"tiene",len(cancionesDeInterprete),"canciones distintas ingresadas segun datos de entrada.")
@@ -269,7 +269,7 @@ arbolDeCancionesTest.eliminarInterprete("The Beatles")
 print("\nCanciones de cada uno de los interpretes despues de borrar:")
 for interprete in interpretes:
   listaInt = Lista()
-  listaInt.appendOrd(interprete)
+  listaInt.append(interprete)
   cancionesDeInterprete = list(cancionesInterpretes[interprete])
   cancionesDeInterpreteArbol = arbolDeCancionesTest.buscarCanciones(listaInt)
   print("El interprete",interprete,"tiene",len(cancionesDeInterprete),"canciones distintas ingresadas segun datos de entrada.")

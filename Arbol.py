@@ -1,5 +1,5 @@
 from Lista import *
-from graphviz import Digraph
+#from graphviz import Digraph
 
 
 ###################
@@ -140,42 +140,72 @@ class NodoArbolDeCanciones:
             alturaNodo = 1 + self.derecho.altura()
         return alturaNodo
 
-# REVISAR
+# OK - creo
     def cancionesEnNivel(self, nivel):
         nivelActual = 0
         cancionesNivel = Lista()
         while nivel >= nivelActual:
-            if nivelActual == nivel:
+            if nivel == nivelActual:
                 cancionesNivel.appendList(self.canciones)
-            elif self.grado() == 2:
-                nivelActual += 1
-                cancionesNivel.appendList(self.izquierdo.cancionesEnNivel(nivel))
-                cancionesNivel.appendList(self.derecho.cancionesEnNivel(nivel))
-            elif self.tieneIzquierdo():
-                nivelActual += 1
-                cancionesNivel.appendList(self.izquierdo.cancionesEnNivel(nivel))
-            elif self.tieneDerecho():
-                nivelActual += 1
-                cancionesNivel.appendList(self.derecho.cancionesEnNivel(nivel))
+            else:
+                if self.tieneIzquierdo():
+                    nivelActual += 1
+                    cancionesNivel = self.izquierdo.cancionesEnNivel(nivel)
+                if self.tieneDerecho():
+                    nivelActual += 1
+                    cancionesNivel = self.derecho.cancionesEnNivel(nivel)
+            nivelActual += 1
+
         return cancionesNivel
+
+    def cantidadTotalInterpretes(self, palabra):
+        cant = 0
+        if palabra in self.interprete:
+            cant += 1
+        if self.tieneIzquierdo():
+            cant = cant + self.izquierdo.cantidadTotalInterpretes(palabra)
+        if self.tieneDerecho():
+            cant = cant + self.derecho.cantidadTotalInterpretes(palabra)
+        return cant
+
+    def interpretesConMasCanciones(self, cantidadCancionesMinima):
+        cantidadInterpretes = 0
+        if self.canciones.len() >= cantidadCancionesMinima:
+            cantidadInterpretes += 1
+        if self.tieneIzquierdo():
+            cantidadInterpretes += self.izquierdo.interpretesConMasCanciones(cantidadCancionesMinima)
+        if self.tieneDerecho():
+            cantidadInterpretes += self.derecho.interpretesConMasCanciones(cantidadCancionesMinima)
+        return cantidadInterpretes
+
+    def internosAlfabetico(self):
+        interpretes = Lista()
+        if self.grado() != 0:
+            interpretes.append(self.interprete)
+        if self.tieneIzquierdo():
+            interpretes.appendList(self.izquierdo.internosAlfabetico())
+        if self.tieneDerecho():
+            interpretes.appendList(self.derecho.internosAlfabetico())
+        return interpretes
+
 
 ####################################################
 ####################################################
-    def treePlot(self, dot):
-        if self.tieneIzquierdo():
-            dot.node(str(self.izquierdo.interprete), str(self.izquierdo.interprete)+"\n"+str(self.izquierdo.canciones))
-            dot.edge(str(self.interprete), str(self.izquierdo.interprete))
-            self.izquierdo.treePlot(dot)
-        else:
-            dot.node("None"+str(self.interprete)+"l", "None")
-            dot.edge(str(self.interprete), "None"+str(self.interprete)+"l")
-        if self.tieneDerecho():
-            dot.node(str(self.derecho.interprete), str(self.derecho.interprete)+"\n"+str(self.derecho.canciones))
-            dot.edge(str(self.interprete), str(self.derecho.interprete))
-            self.derecho.treePlot(dot)
-        else:
-            dot.node("None"+str(self.interprete)+"r", "None")
-            dot.edge(str(self.interprete), "None"+str(self.interprete)+"r")
+#    def treePlot(self, dot):
+#        if self.tieneIzquierdo():
+#            dot.node(str(self.izquierdo.interprete), str(self.izquierdo.interprete)+"\n"+str(self.izquierdo.canciones))
+#            dot.edge(str(self.interprete), str(self.izquierdo.interprete))
+#            self.izquierdo.treePlot(dot)
+#        else:
+#            dot.node("None"+str(self.interprete)+"l", "None")
+#            dot.edge(str(self.interprete), "None"+str(self.interprete)+"l")
+#        if self.tieneDerecho():
+#            dot.node(str(self.derecho.interprete), str(self.derecho.interprete)+"\n"+str(self.derecho.canciones))
+#            dot.edge(str(self.interprete), str(self.derecho.interprete))
+#            self.derecho.treePlot(dot)
+#        else:
+#            dot.node("None"+str(self.interprete)+"r", "None")
+#            dot.edge(str(self.interprete), "None"+str(self.interprete)+"r")
 
 
 #####################
@@ -245,9 +275,13 @@ class ArbolDeCanciones:
         if not self.estaVacio():
             self.raiz.eliminarCancion(nombreCancion)
 
-# retorna la cantidad de interpretes que contienen la palabra en su nombre (ej: ab -> dab)
-    def cantidadTotalInterpretes(self, Palabra):
-        pass
+# OK - retorna la cantidad de interpretes que contienen la palabra en su nombre (ej: ab -> dab)
+    # recursiva en nodo
+    def cantidadTotalInterpretes(self, palabra):
+        cant = 0
+        if not self.estaVacio():
+            cant += self.raiz.cantidadTotalInterpretes(palabra)
+        return cant
 
 # OK - creo...
 # retorna T si la diferencia de altura entre los subarboles de la raiz es menor o igual a 1
@@ -256,35 +290,42 @@ class ArbolDeCanciones:
         if not self.estaVacio():
             if self.raiz.grado() == 2:
                 diferencia = self.raiz.izquierdo.altura() - self.raiz.altura()
-            elif self.raiz.tieneIzquierdo():
+            if self.raiz.tieneIzquierdo():
                 diferencia = self.raiz.izquierdo.altura()
-            elif self.raiz.tieneDerecho():
+            if self.raiz.tieneDerecho():
                 diferencia = self.raiz.derecho.altura()
         return abs(diferencia) >= 1
 
-# REVISAR
-# retorna una lista con las canciones de todos los interpretes en ese niveldel arbol (sin repetidas y en orden)
+
+# OK - retorna una lista con las canciones de todos los interpretes en ese niveldel arbol (sin repetidas y en orden)
     # recursiva en nodo
     def cancionesEnNivel(self, nivel):
         cancionesNivel = Lista()
-        if nivel == 0:
-            cancionesNivel = self.raiz.canciones
-        elif self.altura() >= nivel:
-            cancionesNivel = (self.raiz.cancionesEnNivel(nivel))
+        if self.altura() >= nivel:
+            cancionesNivel = self.raiz.cancionesEnNivel(nivel)
         else:
             raise Exception("Nivel no valido")
         quickSort(cancionesNivel)
         cancionesNivel.eliminarRep()
         return cancionesNivel
 
-
-# retorna la cantidad de interpretes que tienen como minimo la cantidad recibida de canciones
+# OK - retorna la cantidad de interpretes que tienen como minimo la cantidad recibida de canciones
+    # recursiva en nodo
     def interpretesConMasCanciones(self, cantidadCancionesMinima):
-        pass
+        cantidadInterpretes = 0
+        if not self.estaVacio():
+            cantidadInterpretes = self.raiz.interpretesConMasCanciones(cantidadCancionesMinima)
+        return cantidadInterpretes
 
-# retorna una lista(en orden alfab) con los interpretes (que sean nodo interno. NO HOJA)
+# retorna una lista(en orden alfab) con los interpretes (que sean nodo interno. NO HOJA.
+    # en este caso la raiz siempre estara incluida aunque sea el unico nodo)
     def internosAlfabetico(self):
-        pass
+        interpretes = Lista()
+        if not self.estaVacio():
+            interpretes.append(self.raiz.interprete)
+            interpretes.appendList(self.raiz.internosAlfabetico())
+        quickSort(interpretes)
+        return interpretes
 
 #######################
 #######################
@@ -309,8 +350,8 @@ class ArbolDeCanciones:
         nodo = None
         if not self.estaVacio():
             nodo = self.raiz.buscarInterprete(interprete)
-        else:
-            raise Exception("Arbol vacio")
+#        else:
+#            raise Exception("Arbol vacio")
         return nodo
 
 # OK - retorna la lista de canciones de un interprete
@@ -326,9 +367,9 @@ class ArbolDeCanciones:
 
 ####################################################
 ####################################################
-    def treePlot(self, fileName='tree'):
-        if not self.estaVacio():
-            treeDot = Digraph()
-            treeDot.node(str(self.raiz.interprete), str(self.raiz.interprete+"\n"+str(self.raiz.canciones)))
-            self.raiz.treePlot(treeDot)
-            treeDot.render(fileName, view=True)
+#    def treePlot(self, fileName='tree'):
+#        if not self.estaVacio():
+#            treeDot = Digraph()
+#            treeDot.node(str(self.raiz.interprete), str(self.raiz.interprete+"\n"+str(self.raiz.canciones)))
+#            self.raiz.treePlot(treeDot)
+#            treeDot.render(fileName, view=True)
