@@ -1,0 +1,13 @@
+digraph {
+	Ramones [label=Ramones
+]
+	"2 Minutos" [label="2 Minutos
+"]
+	Ramones -> "2 Minutos"
+	"None2 Minutosl" [label=None]
+	"2 Minutos" -> "None2 Minutosl"
+	"None2 Minutosr" [label=None]
+	"2 Minutos" -> "None2 Minutosr"
+	NoneRamonesr [label=None]
+	Ramones -> NoneRamonesr
+}
