@@ -61,16 +61,16 @@ class NodoLista:
 #            posicion = self.siguiente.getPos(elemento, posActual+1)
 #        return posicion
 
-    def insertarOrden(self, nodoNuevo):
-        if self.tieneSiguiente():
-            if self.dato < nodoNuevo.dato:
-                if nodoNuevo.dato < self.siguiente.dato:
-                    nodoNuevo.siguiente = self.siguiente
-                    self.siguiente = nodoNuevo
-                elif nodoNuevo.dato > self.siguiente.dato:
-                    self.siguiente.insertarOrden(nodoNuevo)
-        else:
-            self.siguiente = nodoNuevo
+#    def insertarOrden(self, nodoNuevo):
+#        if self.tieneSiguiente():
+#            if self.dato < nodoNuevo.dato:
+#                if nodoNuevo.dato < self.siguiente.dato:
+#                    nodoNuevo.siguiente = self.siguiente
+#                    self.siguiente = nodoNuevo
+#                elif nodoNuevo.dato > self.siguiente.dato:
+#                    self.siguiente.insertarOrden(nodoNuevo)
+#        else:
+3            self.siguiente = nodoNuevo
 
     def eliminarRep(self):
         if self.tieneSiguiente():
@@ -97,7 +97,7 @@ class Lista:
     def estaVacia(self):
         return self.primero is None
 
-# reemplazado por append()
+
 # OK - agrega al final,
     # Recursiva en NodoLista
     def append(self, dato):
@@ -109,8 +109,8 @@ class Lista:
 
 # append modificado para que siempre este ordenada
 # Puede dar ERROR al hacer un append(lista). usar appendList()
-    def appendOrd(self, dato):
-        self.insertarOrden(dato)
+#    def appendOrd(self, dato):
+#        self.insertarOrden(dato)
 
 # OK
     # Recursiva en NodoLista
@@ -163,15 +163,15 @@ class Lista:
 
 # OK - inserta el elemento de manera ordenada
     # recursiva en nodo
-    def insertarOrden(self, elemento):
-        nodoNuevo = NodoLista(elemento)
-        if self.estaVacia():
-            self.primero = nodoNuevo
-        elif self.primero.dato > elemento:
-            nodoNuevo.siguiente = self.primero
-            self.primero = nodoNuevo
-        else:
-            self.primero.insertarOrden(nodoNuevo)
+#    def insertarOrden(self, elemento):
+#        nodoNuevo = NodoLista(elemento)
+#        if self.estaVacia():
+#            self.primero = nodoNuevo
+#        elif self.primero.dato > elemento:
+#            nodoNuevo.siguiente = self.primero
+#            self.primero = nodoNuevo
+#        else:
+#            self.primero.insertarOrden(nodoNuevo)
 
 # OK - elimina los elementos repetidos de la lista
     def eliminarRep(self):

@@ -81,7 +81,7 @@ class NodoArbolDeCanciones:
     def interpretesDeCancion(self, nombreCancion):
         interpretes = Lista()
         if self.canciones.contiene(nombreCancion):
-            interpretes.appendOrd(self.interprete)
+            interpretes.append(self.interprete)
         if self.tieneIzquierdo():
             interpretes.appendList(self.izquierdo.interpretesDeCancion(nombreCancion))
         if self.tieneDerecho():
