@@ -1,5 +1,5 @@
 from Lista import *
-#from graphviz import Digraph
+from graphviz import Digraph
 
 
 ###################
@@ -191,21 +191,21 @@ class NodoArbolDeCanciones:
 
 ####################################################
 ####################################################
-#    def treePlot(self, dot):
-#        if self.tieneIzquierdo():
-#            dot.node(str(self.izquierdo.interprete), str(self.izquierdo.interprete)+"\n"+str(self.izquierdo.canciones))
-#            dot.edge(str(self.interprete), str(self.izquierdo.interprete))
-#            self.izquierdo.treePlot(dot)
-#        else:
-#            dot.node("None"+str(self.interprete)+"l", "None")
-#            dot.edge(str(self.interprete), "None"+str(self.interprete)+"l")
-#        if self.tieneDerecho():
-#            dot.node(str(self.derecho.interprete), str(self.derecho.interprete)+"\n"+str(self.derecho.canciones))
-#            dot.edge(str(self.interprete), str(self.derecho.interprete))
-#            self.derecho.treePlot(dot)
-#        else:
-#            dot.node("None"+str(self.interprete)+"r", "None")
-#            dot.edge(str(self.interprete), "None"+str(self.interprete)+"r")
+    def treePlot(self, dot):
+        if self.tieneIzquierdo():
+            dot.node(str(self.izquierdo.interprete), str(self.izquierdo.interprete)+"\n"+str(self.izquierdo.canciones))
+            dot.edge(str(self.interprete), str(self.izquierdo.interprete))
+            self.izquierdo.treePlot(dot)
+        else:
+            dot.node("None"+str(self.interprete)+"l", "None")
+            dot.edge(str(self.interprete), "None"+str(self.interprete)+"l")
+        if self.tieneDerecho():
+            dot.node(str(self.derecho.interprete), str(self.derecho.interprete)+"\n"+str(self.derecho.canciones))
+            dot.edge(str(self.interprete), str(self.derecho.interprete))
+            self.derecho.treePlot(dot)
+        else:
+            dot.node("None"+str(self.interprete)+"r", "None")
+            dot.edge(str(self.interprete), "None"+str(self.interprete)+"r")
 
 
 #####################
@@ -304,8 +304,8 @@ class ArbolDeCanciones:
         cancionesNivel = Lista()
         if self.altura() >= nivel:
             cancionesNivel = self.raiz.cancionesEnNivel(nivel)
-        else:
-            raise Exception("Nivel no valido")
+#        else:
+#            raise Exception("Nivel no valido")
         quickSort(cancionesNivel)
         cancionesNivel.eliminarRep()
         return cancionesNivel
@@ -357,7 +357,10 @@ class ArbolDeCanciones:
 
 # OK - retorna la lista de canciones de un interprete
     def cancionesDe(self, interprete):
-        return self.buscarInterprete(interprete).canciones
+        if self.buscarInterprete(interprete) is not None:
+            return self.buscarInterprete(interprete).canciones
+#        else:
+#            raise Exception("Interprete inexistente")
 
 # OK - retorna la altura total del arbol
     def altura(self):
@@ -368,9 +371,10 @@ class ArbolDeCanciones:
 
 ####################################################
 ####################################################
-#    def treePlot(self, fileName='tree'):
-#        if not self.estaVacio():
-#            treeDot = Digraph()
-#            treeDot.node(str(self.raiz.interprete), str(self.raiz.interprete+"\n"+str(self.raiz.canciones)))
-#            self.raiz.treePlot(treeDot)
-#            treeDot.render(fileName, view=True)
+
+    def treePlot(self, fileName='tree'):
+        if not self.estaVacio():
+            treeDot = Digraph()
+            treeDot.node(str(self.raiz.interprete), str(self.raiz.interprete+"\n"+str(self.raiz.canciones)))
+            self.raiz.treePlot(treeDot)
+            treeDot.render(fileName, view=True)
