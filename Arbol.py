@@ -235,21 +235,40 @@ class ArbolDeCanciones:
         return listaInterpretes
 
 # OK - retorna una lista de canciones compartidads entre la lista de artistas recibida
+#    def buscarCanciones(self, listaInterpretes):
+#        interpretes = listaInterpretes.len() - 1
+#        lCancionesComun = Lista()
+#        lCancionesAux = self.cancionesDe(listaInterpretes.get(interpretes))
+#        count = 0
+#        while interpretes > 0:
+#            while count < lCancionesAux.len():
+#                if self.cancionesDe(listaInterpretes.get(interpretes-1)).contiene(lCancionesAux.get(count)):
+#                    lCancionesComun.append(lCancionesAux.get(count))
+#                count += 1
+#            interpretes -= 1
+#            count = 0
+#        quickSort(lCancionesComun)
+#        lCancionesComun.eliminarRep()
+#        return lCancionesComun
+
     def buscarCanciones(self, listaInterpretes):
-        interpretes = listaInterpretes.len() - 1
         lCancionesComun = Lista()
-        lCancionesAux = self.cancionesDe(listaInterpretes.get(interpretes))
-        count = 0
-        while interpretes > 0:
-            while count < lCancionesAux.len():
-                if self.cancionesDe(listaInterpretes.get(interpretes-1)).contiene(lCancionesAux.get(count)):
-                    lCancionesComun.append(lCancionesAux.get(count))
-                count += 1
-            interpretes -= 1
-            count = 0
-        quickSort(lCancionesComun)
-        lCancionesComun.eliminarRep()
+        lCancionesComun.appendList(self.cancionesDe(listaInterpretes.get(0)))
+        interprete = 1
+        cancion = 0
+        while interprete < listaInterpretes.len():
+            if cancion < self.cancionesDe(listaInterpretes.get(interprete)).len():
+                if self.cancionesDe(listaInterpretes.get(interprete)).contiene(lCancionesComun.get(cancion)):
+                    cancion += 1
+                else:
+                    lCancionesComun.eliminarPos(cancion)
+            else:
+                interprete += 1
+                cancion = 0
         return lCancionesComun
+
+
+
 
 # OK - elimina el interprete recibido
     # recursiva en nodo
@@ -291,12 +310,12 @@ class ArbolDeCanciones:
         diferencia = 0
         if not self.estaVacio():
             if self.raiz.grado() == 2:
-                diferencia = self.raiz.izquierdo.altura() - self.raiz.altura()
+                diferencia = self.raiz.izquierdo.altura() - self.raiz.derecho.altura()
             if self.raiz.tieneIzquierdo():
                 diferencia = self.raiz.izquierdo.altura()
             if self.raiz.tieneDerecho():
                 diferencia = self.raiz.derecho.altura()
-        return abs(diferencia) >= 1
+        return abs(diferencia) <= 1
 
 # OK - retorna una lista con las canciones de todos los interpretes en ese niveldel arbol (sin repetidas y en orden)
     # recursiva en nodo

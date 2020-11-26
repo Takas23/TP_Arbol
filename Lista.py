@@ -70,7 +70,7 @@ class NodoLista:
 #                elif nodoNuevo.dato > self.siguiente.dato:
 #                    self.siguiente.insertarOrden(nodoNuevo)
 #        else:
-3            self.siguiente = nodoNuevo
+#            self.siguiente = nodoNuevo
 
     def eliminarRep(self):
         if self.tieneSiguiente():
